@@ -13,8 +13,10 @@ const uploadedFiles = [
   { name: "company-policies.pdf", size: "850 KB", date: "Apr 5" },
 ];
 
+type Msg = { role: "user" | "ai"; content: string };
+
 const KnowledgeBase = () => {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Msg[]>([
     { role: "ai" as const, content: "Test your agent here. Ask me anything about the uploaded knowledge." },
   ]);
   const [input, setInput] = useState("");
