@@ -25,7 +25,7 @@ export default function SolutionsPage() {
             <div className="hidden md:flex gap-10 text-sm font-semibold text-slate-500">
               <Link href="/product" className="hover:text-slate-900 transition-colors">Product</Link>
               <Link href="/solutions" className="text-slate-900 transition-colors">Solutions</Link>
-              <Link href="#" className="hover:text-slate-900 transition-colors">Developers</Link>
+              <Link href="/developers" className="hover:text-slate-900 transition-colors">Developers</Link>
               <Link href="#" className="hover:text-slate-900 transition-colors">Pricing</Link>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm font-medium">
