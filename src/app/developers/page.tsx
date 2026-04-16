@@ -23,7 +23,7 @@ export default function DevelopersPage() {
               <Link href="/product" className="hover:text-slate-900 transition-colors">Product</Link>
               <Link href="/solutions" className="hover:text-slate-900 transition-colors">Solutions</Link>
               <Link href="/developers" className="text-slate-900 transition-colors">Developers</Link>
-              <Link href="#" className="hover:text-slate-900 transition-colors">Pricing</Link>
+              <Link href="/pricing" className="hover:text-slate-900 transition-colors">Pricing</Link>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm font-medium">
               <Link href="/login" className="text-slate-500 hover:text-slate-900 font-semibold transition-colors">Sign In</Link>
@@ -43,113 +43,36 @@ export default function DevelopersPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 md:pt-40 md:pb-32 max-w-[1280px] mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center text-blue-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-8 bg-blue-50/80 px-4 py-2 rounded-full border border-blue-100">
-              For Developers
-            </div>
-            <h1 className="font-heading text-[3rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.05] font-extrabold text-slate-900 tracking-[-0.04em] mb-8">
-              Build agent workflows with{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">speed, control, and precision.</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-slate-500 mb-10 leading-relaxed font-medium tracking-wide">
-              AgentLab gives developers the APIs, SDKs, orchestration tools, and deployment infrastructure needed to build production-grade AI agents with confidence.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-10">
-              <Link href="#" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-7 text-base font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5">
-                  View Documentation
-                </Button>
-              </Link>
-              <Link href="/register" className="w-full sm:w-auto">
-                <Button variant="secondary" className="w-full sm:w-auto rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 px-8 py-7 text-base font-semibold shadow-sm transition-all border border-slate-200 border-b-slate-300">
-                  Start Building Free
-                </Button>
-              </Link>
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-               {["TypeScript SDK", "REST API", "Webhooks", "Real-time Events"].map((label, i) => (
-                 <div key={i} className="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider">
-                   {label}
-                 </div>
-               ))}
-            </div>
+      <section className="pt-32 pb-16 md:pt-40 md:pb-20 max-w-[1280px] mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto">
+          <div className="inline-flex items-center text-blue-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-8 bg-blue-50/80 px-4 py-2 rounded-full border border-blue-100">
+            For Developers
           </div>
-          
-          <div className="relative hidden lg:block">
-            {/* Ambient glow */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-300/40 to-indigo-300/30 rounded-[40px] transform -rotate-1 scale-105 opacity-50 blur-3xl mix-blend-multiply pointer-events-none"></div>
-            
-            {/* Split layout code dashboard mock */}
-            <div className="relative bg-white/60 backdrop-blur-3xl rounded-[2rem] shadow-2xl shadow-blue-900/15 p-2 border border-white">
-               <div className="bg-[#0f1524] rounded-[1.8rem] flex flex-col border border-slate-800 relative overflow-hidden h-[460px]">
-                  
-                  {/* Window Controls */}
-                  <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0a0e17]">
-                     <div className="flex gap-2">
-                       <div className="w-3 h-3 rounded-full bg-slate-600/50"></div>
-                       <div className="w-3 h-3 rounded-full bg-slate-600/50"></div>
-                       <div className="w-3 h-3 rounded-full bg-slate-600/50"></div>
-                     </div>
-                     <div className="flex gap-4 text-xs font-semibold text-slate-400">
-                        <div className="text-white border-b border-blue-500 pb-4 -mb-4">index.ts</div>
-                        <div className="hover:text-slate-300 cursor-pointer">events.log</div>
-                        <div className="hover:text-slate-300 cursor-pointer">config.json</div>
-                     </div>
-                     <div className="flex gap-2">
-                       <div className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase border border-blue-500/30">Deploy</div>
-                     </div>
-                  </div>
-
-                  <div className="flex flex-1 overflow-hidden">
-                     {/* Left: Code panel */}
-                     <div className="flex-[1.3] p-5 font-mono text-[12px] leading-relaxed text-blue-200 border-r border-white/5 overflow-hidden">
-                        <code>
-                          <span className="text-indigo-400">import</span> {`{ Agent, Workflow, Memory }`} <span className="text-indigo-400">from</span> <span className="text-emerald-400">'@agentlab/sdk'</span>;<br/><br/>
-                          <span className="text-slate-500 italic">// Initialize specialized agent</span><br/>
-                          <span className="text-indigo-400">const</span> agent <span className="text-indigo-400">= new</span> <span className="text-blue-400 font-semibold">Agent</span>({`{\n`}
-                          &nbsp;&nbsp;<span className="text-slate-300">role:</span> <span className="text-emerald-400">'data-analyst'</span>,<br/>
-                          &nbsp;&nbsp;<span className="text-slate-300">tools:</span> [<span className="text-emerald-400">'sql'</span>, <span className="text-emerald-400">'chart'</span>],<br/>
-                          &nbsp;&nbsp;<span className="text-slate-300">memory:</span> <span className="text-indigo-400">true</span><br/>
-                          {`});`}<br/><br/>
-                          <span className="text-indigo-400">export const</span> flow <span className="text-indigo-400">=</span> <span className="text-blue-400 font-semibold">defineFlow</span>({`{\n`}
-                          &nbsp;&nbsp;<span className="text-slate-300">agents:</span> [agent],<br/>
-                          &nbsp;&nbsp;<span className="text-slate-300">trigger:</span> <span className="text-emerald-400">'api_webhook'</span><br/>
-                          {`});`}
-                        </code>
-                     </div>
-                     
-                     {/* Right: Console/Output Panel */}
-                     <div className="flex-1 bg-[#0a0e17] p-5 flex flex-col font-mono text-[11px] overflow-hidden">
-                        <div className="text-slate-500 font-semibold uppercase tracking-wider mb-4 border-b border-white/5 pb-2">Execution Log</div>
-                        <div className="space-y-3">
-                           <div className="flex gap-2 items-start text-slate-300">
-                             <div className="text-emerald-500 shrink-0">➜</div>
-                             <div>
-                               <span className="text-blue-400">Run ID:</span> #req_8f29ea1<br/>
-                               <span className="text-slate-500">Initializing environment...</span>
-                             </div>
-                           </div>
-                           <div className="flex gap-2 items-start text-slate-300">
-                             <div className="text-emerald-500 shrink-0">➜</div>
-                             <div>
-                               <span className="text-amber-400">Tool execution:</span> SQL Query<br/>
-                               <span className="text-slate-500 opacity-80">SELECT SUM(revenue) FROM sales...</span>
-                             </div>
-                           </div>
-                           <div className="flex gap-2 items-start text-slate-300">
-                             <div className="text-emerald-500 shrink-0">➜</div>
-                             <div>
-                               <span className="text-emerald-400">Success:</span> Result generated<br/>
-                               <span className="text-slate-500 bg-white/5 px-2 py-0.5 rounded mt-1 inline-block">[ "2.84M USD Return" ]</span>
-                             </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+          <h1 className="font-heading text-[3rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.05] font-extrabold text-slate-900 tracking-[-0.04em] mb-8">
+            Build agent workflows with{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">speed, control, and precision.</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-slate-500 mb-12 leading-relaxed font-medium tracking-wide max-w-2xl mx-auto">
+            AgentLab gives developers the APIs, SDKs, orchestration tools, and deployment infrastructure needed to build production-grade AI agents with confidence.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+            <Link href="#" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-7 text-base font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5">
+                View Documentation
+              </Button>
+            </Link>
+            <Link href="/register" className="w-full sm:w-auto">
+              <Button variant="secondary" className="w-full sm:w-auto rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 px-8 py-7 text-base font-semibold shadow-sm transition-all border border-slate-200 border-b-slate-300">
+                Start Building Free
+              </Button>
+            </Link>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+             {["TypeScript SDK", "REST API", "Webhooks", "Real-time Events"].map((label, i) => (
+               <div key={i} className="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider">
+                 {label}
                </div>
-            </div>
+             ))}
           </div>
         </div>
       </section>

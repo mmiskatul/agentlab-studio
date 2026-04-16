@@ -42,7 +42,7 @@ export default function ProductPage() {
               <Link href="/product" className="text-slate-900 transition-colors">Product</Link>
               <Link href="/solutions" className="hover:text-slate-900 transition-colors">Solutions</Link>
               <Link href="/developers" className="hover:text-slate-900 transition-colors">Developers</Link>
-              <Link href="#" className="hover:text-slate-900 transition-colors">Pricing</Link>
+              <Link href="/pricing" className="hover:text-slate-900 transition-colors">Pricing</Link>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm font-medium">
               <Link href="/login" className="text-slate-500 hover:text-slate-900 font-semibold transition-colors">Sign In</Link>
@@ -62,129 +62,29 @@ export default function ProductPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 md:pt-40 md:pb-32 max-w-[1280px] mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center text-blue-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-8 bg-blue-50/80 px-4 py-2 rounded-full border border-blue-100">
-              Product Platform
-            </div>
-            <h1 className="font-heading text-[3rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.05] font-extrabold text-slate-900 tracking-[-0.04em] mb-8">
-              Everything you need to build, manage, and{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">scale AI agents.</span>
-            </h1>
-            <p className="text-lg sm:text-lg text-slate-500 mb-10 leading-relaxed md:pr-10 font-medium tracking-wide">
-              AgentLab gives teams a unified platform to design intelligent workflows, orchestrate specialized agents, manage memory, enforce guardrails, and deploy reliable automation at scale.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
-              <Link href="/register" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-7 text-base font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5">
-                  Start Building Free
-                </Button>
-              </Link>
-              <Link href="#" className="w-full sm:w-auto">
-                <Button variant="secondary" className="w-full sm:w-auto rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 px-8 py-7 text-base font-semibold shadow-sm transition-all border border-slate-200 border-b-slate-300">
-                  Book Demo
-                </Button>
-              </Link>
-            </div>
+      <section className="pt-32 pb-16 md:pt-40 md:pb-20 max-w-[1280px] mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto">
+          <div className="inline-flex items-center text-blue-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-8 bg-blue-50/80 px-4 py-2 rounded-full border border-blue-100">
+            Product Platform
           </div>
-          
-          <div className="relative hidden lg:block">
-            {/* Background glowing blur for the hero floaty card */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-200/50 to-indigo-100/40 rounded-[40px] transform -rotate-2 scale-105 opacity-70 blur-3xl mix-blend-multiply pointer-events-none"></div>
-            
-            {/* Floating Premium Dashboard Mockup */}
-            <div className="relative bg-white/70 backdrop-blur-2xl rounded-[2rem] shadow-2xl shadow-slate-300/40 p-2 borders border-white">
-               <div className="bg-[#fafbfc] rounded-[1.8rem] p-4 h-[440px] flex border border-slate-100 relative overflow-hidden group">
-                  
-                  {/* Left Sidebar */}
-                  <div className="w-16 border-r border-slate-200/60 flex flex-col items-center py-6 gap-6 relative z-10">
-                     <div className="w-8 h-8 rounded-lg bg-blue-600 shadow-md shadow-blue-500/30 flex items-center justify-center mb-4">
-                        <Bot className="w-4 h-4 text-white"/>
-                     </div>
-                     <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 flex items-center justify-center hover:text-blue-600 hover:border-blue-200 transition-colors cursor-pointer">
-                        <Network className="w-4 h-4"/>
-                     </div>
-                     <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 flex items-center justify-center hover:text-blue-600 hover:border-blue-200 transition-colors cursor-pointer">
-                        <Database className="w-4 h-4"/>
-                     </div>
-                     <div className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 flex items-center justify-center hover:text-blue-600 hover:border-blue-200 transition-colors cursor-pointer">
-                        <Settings className="w-4 h-4"/>
-                     </div>
-                  </div>
-
-                  {/* Main Dashboard Content */}
-                  <div className="flex-1 pl-6 py-4 flex flex-col relative z-10">
-                     {/* Top nav */}
-                     <div className="flex justify-between items-center mb-8">
-                       <div className="flex items-center gap-3">
-                         <div className="font-semibold text-slate-800 tracking-tight">Active Cluster</div>
-                         <div className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase border border-emerald-100">Healthy</div>
-                       </div>
-                       <div className="flex gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
-                       </div>
-                     </div>
-
-                     {/* Top Metrics Row */}
-                     <div className="grid grid-cols-3 gap-4 mb-8">
-                        <div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm flex flex-col justify-between h-24 hover:-translate-y-0.5 transition-transform">
-                          <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Agents</div>
-                          <div className="text-2xl font-bold text-slate-800">42</div>
-                        </div>
-                        <div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm flex flex-col justify-between h-24 hover:-translate-y-0.5 transition-transform relative overflow-hidden">
-                          <div className="absolute right-0 bottom-0 w-20 h-10 bg-blue-50 blur-xl rounded-full"></div>
-                          <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider relative z-10">Tasks/m</div>
-                          <div className="text-2xl font-bold text-blue-600 relative z-10">1,204</div>
-                        </div>
-                        <div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm flex flex-col justify-between h-24 hover:-translate-y-0.5 transition-transform">
-                          <div className="text-slate-400 text-xs font-semibold uppercase tracking-wider">Avg Latency</div>
-                          <div className="text-2xl font-bold text-slate-800">14ms</div>
-                        </div>
-                     </div>
-
-                     {/* Workflow block */}
-                     <div className="flex-1 bg-white rounded-xl border border-slate-100 shadow-sm p-4 relative overflow-hidden">
-                       <div className="absolute top-4 right-4 flex gap-1">
-                         <Activity className="w-4 h-4 text-emerald-400" />
-                       </div>
-                       <div className="text-slate-800 text-sm font-semibold mb-6">Execution Pipeline</div>
-                       
-                       <div className="flex items-center gap-3">
-                         {/* Node 1 */}
-                         <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 w-1/3 flex flex-col gap-2 relative">
-                           <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-[2px] bg-blue-200"></div>
-                           <div className="flex items-center gap-2 text-slate-600 font-semibold text-xs">
-                             <MessageSquareCode className="w-3.5 h-3.5 text-blue-500" /> Intake
-                           </div>
-                           <div className="h-1.5 w-full bg-blue-100 rounded-full overflow-hidden">
-                             <div className="h-full w-full bg-blue-500 animate-pulse"></div>
-                           </div>
-                         </div>
-                         {/* Node 2 */}
-                         <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-3 w-1/3 flex flex-col gap-2 relative shadow-sm shadow-blue-500/5">
-                           <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-[2px] bg-blue-200"></div>
-                           <div className="flex items-center gap-2 text-blue-700 font-semibold text-xs">
-                             <Network className="w-3.5 h-3.5" /> Plan
-                           </div>
-                           <div className="h-1.5 w-full bg-blue-100 rounded-full overflow-hidden">
-                             <div className="h-full w-2/3 bg-blue-500"></div>
-                           </div>
-                         </div>
-                         {/* Node 3 */}
-                         <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 w-1/3 flex flex-col gap-2 text-slate-400">
-                           <div className="flex items-center gap-2 font-semibold text-xs text-slate-400">
-                             <Terminal className="w-3.5 h-3.5" /> Execute
-                           </div>
-                           <div className="h-1.5 w-full bg-slate-200 rounded-full"></div>
-                         </div>
-                       </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
+          <h1 className="font-heading text-[3rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.05] font-extrabold text-slate-900 tracking-[-0.04em] mb-8">
+            Everything you need to build, manage, and{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">scale AI agents.</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-slate-500 mb-12 leading-relaxed font-medium tracking-wide max-w-2xl mx-auto">
+            AgentLab gives teams a unified platform to design intelligent workflows, orchestrate specialized agents, manage memory, enforce guardrails, and deploy reliable automation at scale.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/register" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-7 text-base font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5">
+                Start Building Free
+              </Button>
+            </Link>
+            <Link href="#" className="w-full sm:w-auto">
+              <Button variant="secondary" className="w-full sm:w-auto rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 px-8 py-7 text-base font-semibold shadow-sm transition-all border border-slate-200 border-b-slate-300">
+                Book Demo
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

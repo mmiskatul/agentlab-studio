@@ -27,7 +27,7 @@ export default function HomePage() {
               <Link href="/product" className="hover:text-slate-900 transition-colors">Product</Link>
               <Link href="/solutions" className="hover:text-slate-900 transition-colors">Solutions</Link>
               <Link href="/developers" className="hover:text-slate-900 transition-colors">Developers</Link>
-              <Link href="#" className="hover:text-slate-900 transition-colors">Pricing</Link>
+              <Link href="/pricing" className="hover:text-slate-900 transition-colors">Pricing</Link>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm font-medium">
               <Link href="/login" className="text-slate-500 hover:text-slate-900 font-semibold transition-colors">Sign In</Link>

@@ -26,7 +26,7 @@ export default function SolutionsPage() {
               <Link href="/product" className="hover:text-slate-900 transition-colors">Product</Link>
               <Link href="/solutions" className="text-slate-900 transition-colors">Solutions</Link>
               <Link href="/developers" className="hover:text-slate-900 transition-colors">Developers</Link>
-              <Link href="#" className="hover:text-slate-900 transition-colors">Pricing</Link>
+              <Link href="/pricing" className="hover:text-slate-900 transition-colors">Pricing</Link>
             </div>
             <div className="hidden md:flex items-center gap-6 text-sm font-medium">
               <Link href="/login" className="text-slate-500 hover:text-slate-900 font-semibold transition-colors">Sign In</Link>
@@ -46,104 +46,29 @@ export default function SolutionsPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 md:pt-40 md:pb-32 max-w-[1280px] mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center text-blue-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-8 bg-blue-50/80 px-4 py-2 rounded-full border border-blue-100">
-              Solutions for Modern Teams
-            </div>
-            <h1 className="font-heading text-[3rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.05] font-extrabold text-slate-900 tracking-[-0.04em] mb-8">
-              AI systems tailored for{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">real-world operations.</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-slate-500 mb-10 leading-relaxed md:pr-10 font-medium tracking-wide">
-              From engineering teams to enterprise operations, AgentLab helps organizations build intelligent workflows that automate execution, preserve context, and scale securely.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
-              <Link href="/register" className="w-full sm:w-auto">
-                <Button className="w-full sm:w-auto rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-7 text-base font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5">
-                  Explore Solutions
-                </Button>
-              </Link>
-              <Link href="#" className="w-full sm:w-auto">
-                <Button variant="secondary" className="w-full sm:w-auto rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 px-8 py-7 text-base font-semibold shadow-sm transition-all border border-slate-200 border-b-slate-300">
-                  Talk to Sales
-                </Button>
-              </Link>
-            </div>
+      <section className="pt-32 pb-16 md:pt-40 md:pb-20 max-w-[1280px] mx-auto px-6 text-center">
+        <div className="max-w-3xl mx-auto">
+          <div className="inline-flex items-center text-blue-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-8 bg-blue-50/80 px-4 py-2 rounded-full border border-blue-100">
+            Solutions for Modern Teams
           </div>
-          
-          <div className="relative hidden lg:block">
-            {/* Ambient glow */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-200/50 to-blue-200/40 rounded-[40px] transform rotate-3 scale-105 opacity-60 blur-3xl mix-blend-multiply pointer-events-none"></div>
-            
-            {/* Floating Operations Dashboard Mockup */}
-            <div className="relative bg-white/70 backdrop-blur-2xl rounded-[2rem] shadow-2xl shadow-blue-900/10 p-2 border border-white">
-               <div className="bg-white rounded-[1.8rem] p-6 h-[440px] flex flex-col border border-slate-100 relative overflow-hidden group">
-                  
-                  {/* Top Bar */}
-                  <div className="flex justify-between items-center mb-6 py-2 border-b border-slate-100/60 pb-4">
-                    <div className="flex items-center gap-3">
-                       <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                         <Layers className="w-4 h-4"/>
-                       </div>
-                       <div className="font-bold text-slate-800 text-sm">Operations Hub</div>
-                    </div>
-                    <div className="flex gap-4">
-                       <div className="px-3 py-1 bg-slate-50 text-slate-500 text-xs font-semibold rounded-full border border-slate-200">
-                         Europe Region
-                       </div>
-                       <div className="flex items-center gap-2">
-                         <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                         <div className="text-xs font-bold text-slate-600 uppercase tracking-wider">Online</div>
-                       </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="bg-[#fafafa] rounded-xl p-4 border border-slate-100/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow cursor-default">
-                       <div className="flex justify-between items-center mb-4">
-                         <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500"><Terminal className="w-4 h-4"/></div>
-                         <div className="flex items-center text-emerald-500 text-xs font-bold gap-1"><ArrowRight className="w-3 h-3 -rotate-45"/> 12%</div>
-                       </div>
-                       <div className="text-xl font-extrabold text-slate-800">4,289</div>
-                       <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mt-1">Eng. Workflows</div>
-                    </div>
-                    <div className="bg-[#fafafa] rounded-xl p-4 border border-slate-100/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow cursor-default">
-                       <div className="flex justify-between items-center mb-4">
-                         <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500"><Users2 className="w-4 h-4"/></div>
-                       </div>
-                       <div className="text-xl font-extrabold text-slate-800">12.4k</div>
-                       <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mt-1">Support Tickets</div>
-                    </div>
-                    <div className="bg-blue-600 rounded-xl p-4 shadow-lg shadow-blue-500/20 flex flex-col justify-between relative overflow-hidden hover:scale-[1.02] transition-transform cursor-pointer">
-                       <div className="absolute right-0 bottom-0 w-24 h-24 bg-white/10 blur-xl rounded-full"></div>
-                       <div className="flex justify-between items-center mb-4 relative z-10">
-                         <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white"><Zap className="w-4 h-4"/></div>
-                       </div>
-                       <div className="text-xl font-extrabold text-white relative z-10">99.98%</div>
-                       <div className="text-[10px] uppercase tracking-widest text-blue-200 font-bold mt-1 relative z-10">Success Rate</div>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 bg-slate-50 border border-slate-100 rounded-xl p-4 overflow-hidden relative">
-                     <div className="text-xs font-bold text-slate-700 mb-4 px-1 tracking-wide">Live Agent Activity</div>
-                     <div className="space-y-3">
-                        <div className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm border border-slate-100/80">
-                           <div className="w-2 h-2 rounded-full bg-blue-500"></div>
-                           <div className="flex-1 text-sm font-semibold text-slate-700">Code Review Agent</div>
-                           <div className="text-xs text-slate-400 bg-slate-50 px-2 py-0.5 rounded font-medium border border-slate-100">Reviewing PR #402</div>
-                        </div>
-                        <div className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm border border-slate-100/80 opacity-80 mt-2">
-                           <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
-                           <div className="flex-1 text-sm font-semibold text-slate-700">Support Router</div>
-                           <div className="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded font-medium border border-emerald-100">Escalating Ticket</div>
-                        </div>
-                     </div>
-                  </div>
-
-               </div>
-            </div>
+          <h1 className="font-heading text-[3rem] sm:text-[3.5rem] lg:text-[4rem] leading-[1.05] font-extrabold text-slate-900 tracking-[-0.04em] mb-8">
+            AI systems tailored for{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text">real-world operations.</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-slate-500 mb-12 leading-relaxed font-medium tracking-wide max-w-2xl mx-auto">
+            From engineering teams to enterprise operations, AgentLab helps organizations build intelligent workflows that automate execution, preserve context, and scale securely.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/register" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-7 text-base font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5">
+                Explore Solutions
+              </Button>
+            </Link>
+            <Link href="#" className="w-full sm:w-auto">
+              <Button variant="secondary" className="w-full sm:w-auto rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 px-8 py-7 text-base font-semibold shadow-sm transition-all border border-slate-200 border-b-slate-300">
+                Talk to Sales
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
