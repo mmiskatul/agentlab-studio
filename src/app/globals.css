@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-background: hsl(220 20% 97%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+  --color-primary: hsl(250 80% 60%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(220 20% 93%);
+  --color-secondary-foreground: hsl(222 47% 11%);
+  --color-muted: hsl(220 15% 94%);
+  --color-muted-foreground: hsl(220 10% 46%);
+  --color-accent: hsl(170 70% 45%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  --color-destructive: hsl(0 72% 51%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(220 15% 90%);
+  --color-input: hsl(220 15% 90%);
+  --color-ring: hsl(250 80% 60%);
+
+  /* Border radius */
+  --radius: 0.75rem;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Font families */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-family-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-family-body: 'Inter', system-ui, sans-serif;
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  /* Keyframes */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+/* CSS custom properties for gradient / glass utilities (not in @theme) */
+:root {
+  --gradient-primary: linear-gradient(135deg, hsl(250 80% 60%), hsl(200 90% 55%));
+  --gradient-accent: linear-gradient(135deg, hsl(170 70% 45%), hsl(200 90% 55%));
+  --gradient-hero: linear-gradient(135deg, hsl(250 80% 60% / 0.1), hsl(200 90% 55% / 0.1));
+  --glass-bg: hsl(0 0% 100% / 0.7);
+  --glass-border: hsl(0 0% 100% / 0.3);
+  --shadow-glow: 0 0 60px hsl(250 80% 60% / 0.15);
+  --shadow-card: 0 4px 24px hsl(220 20% 10% / 0.06);
+}
+
+.dark {
+  --color-background: hsl(228 20% 6%);
+  --color-foreground: hsl(220 20% 95%);
+  --color-card: hsl(228 18% 10%);
+  --color-card-foreground: hsl(220 20% 95%);
+  --color-popover: hsl(228 18% 10%);
+  --color-popover-foreground: hsl(220 20% 95%);
+  --color-primary: hsl(250 80% 65%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(228 15% 15%);
+  --color-secondary-foreground: hsl(220 20% 95%);
+  --color-muted: hsl(228 15% 15%);
+  --color-muted-foreground: hsl(220 10% 55%);
+  --color-accent: hsl(170 70% 50%);
+  --color-accent-foreground: hsl(0 0% 100%);
+  --color-destructive: hsl(0 72% 51%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+  --color-border: hsl(228 15% 18%);
+  --color-input: hsl(228 15% 18%);
+  --color-ring: hsl(250 80% 65%);
+
+  --gradient-primary: linear-gradient(135deg, hsl(250 80% 65%), hsl(200 90% 55%));
+  --gradient-accent: linear-gradient(135deg, hsl(170 70% 50%), hsl(200 90% 55%));
+  --gradient-hero: linear-gradient(135deg, hsl(250 80% 65% / 0.15), hsl(200 90% 55% / 0.1));
+  --glass-bg: hsl(228 18% 12% / 0.7);
+  --glass-border: hsl(228 15% 25% / 0.5);
+  --shadow-glow: 0 0 80px hsl(250 80% 65% / 0.2);
+  --shadow-card: 0 4px 24px hsl(228 20% 4% / 0.4);
+}
+
+/* Base styles */
+*, *::before, *::after {
+  border-color: var(--color-border);
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Component utilities */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-accent {
+  background: var(--gradient-accent);
+}
+
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+.animate-float {
+  animation: var(--animate-float);
+}
+
+.animate-pulse-glow {
+  animation: var(--animate-pulse-glow);
+}
