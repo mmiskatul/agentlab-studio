@@ -1,187 +1,149 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Bot, Eye, EyeOff, Mail, Lock, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
-const getStrength = (p: string) => {
-  let s = 0;
-  if (p.length >= 8) s += 25;
-  if (/[A-Z]/.test(p)) s += 25;
-  if (/\d/.test(p)) s += 25;
-  if (/[^A-Za-z0-9]/.test(p)) s += 25;
-  return s;
-};
+const GoogleIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+  </svg>
+);
 
-const strengthLabel = (s: number) =>
-  s <= 25 ? "Weak" : s <= 50 ? "Fair" : s <= 75 ? "Good" : "Strong";
-const strengthColor = (s: number) =>
-  s <= 25
-    ? "bg-destructive"
-    : s <= 50
-    ? "bg-yellow-500"
-    : "bg-accent";
+const GithubIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.087.636-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.376.202 2.394.1 2.646.64.699 1.026 1.591 1.026 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/>
+  </svg>
+);
 
 export default function RegisterPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
-  const strength = getStrength(form.password);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const set =
-    (k: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
-      setForm((f) => ({ ...f, [k]: e.target.value }));
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 2000);
+  };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center gradient-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center px-12"
-        >
-          <div className="mx-auto w-64 h-64 animate-float flex items-center justify-center">
-            <div className="rounded-3xl bg-white/10 p-10 backdrop-blur-sm">
-              <Bot className="h-32 w-32 text-white" />
-            </div>
-          </div>
-          <h2 className="font-heading text-3xl font-bold text-primary-foreground mt-8">
-            Join AgentLab
-          </h2>
-          <p className="text-primary-foreground/80 mt-3 max-w-sm mx-auto">
-            Start building intelligent AI agents in minutes.
-          </p>
-        </motion.div>
+    <div className="min-h-screen bg-[#fafafa] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-body relative overflow-hidden text-slate-900">
+      
+      {/* Premium Ambient Background */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/20 rounded-full blur-[120px] pointer-events-none mix-blend-multiply"></div>
+      <div className="absolute right-[-10%] w-[40%] h-[40%] bg-cyan-400/10 rounded-full blur-[120px] pointer-events-none mix-blend-multiply"></div>
+
+      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <Link href="/" className="flex justify-center text-center font-heading font-extrabold text-3xl tracking-tight text-slate-900 transition-opacity hover:opacity-80">
+          AgentLab
+        </Link>
+        <h2 className="mt-8 text-center font-heading text-3xl font-extrabold text-slate-900 tracking-tight">
+          Create an account
+        </h2>
+        <p className="mt-3 text-center text-[15px] font-medium text-slate-500 px-4">
+          Start building autonomous workflows in seconds. No credit card required.
+        </p>
       </div>
 
-      <div className="flex w-full lg:w-1/2 items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md space-y-6"
-        >
-          <div>
-            <Link href="/" className="flex items-center gap-2 mb-8">
-              <div className="gradient-primary rounded-lg p-1.5">
-                <Bot className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <span className="font-heading text-xl font-bold">AgentLab</span>
-            </Link>
-            <h1 className="font-heading text-2xl font-bold">Create your account</h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Get started with AgentLab for free.
-            </p>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[440px] relative z-10">
+        <div className="bg-white py-10 px-6 sm:px-12 shadow-2xl shadow-slate-200/50 sm:rounded-[2rem] border border-slate-200/60">
+          
+          <div className="space-y-4 mb-8">
+             <button className="relative w-full flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-4 py-3 rounded-xl font-bold transition-all shadow-sm">
+                <div className="absolute left-4">
+                  <GoogleIcon />
+                </div>
+                Sign up with Google
+             </button>
+             <button className="relative w-full flex items-center justify-center bg-[#24292e] text-white hover:bg-[#2f363d] px-4 py-3 rounded-xl font-bold transition-all shadow-sm">
+                <div className="absolute left-4">
+                  <GithubIcon />
+                </div>
+                Sign up with GitHub
+             </button>
           </div>
 
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Full Name</label>
+          <div className="relative mb-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-200" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-3 bg-white text-slate-400 font-medium">or register with email</span>
+            </div>
+          </div>
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">
+                Full Name
+              </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="John Doe"
-                  value={form.name}
-                  onChange={set("name")}
-                  className="pl-10"
+                <input
+                  type="text"
+                  required
+                  placeholder="Jane Doe"
+                  className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors bg-slate-50/50 hover:bg-white focus:bg-white"
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Email</label>
+
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">
+                Email address
+              </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
+                <input
                   type="email"
-                  placeholder="you@example.com"
-                  value={form.email}
-                  onChange={set("email")}
-                  className="pl-10"
+                  required
+                  placeholder="you@company.com"
+                  className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors bg-slate-50/50 hover:bg-white focus:bg-white"
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Password</label>
+
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">
+                Password
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={set("password")}
-                  className="pl-10 pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              {form.password && (
-                <div className="space-y-1">
-                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all ${strengthColor(strength)}`}
-                      style={{ width: `${strength}%` }}
-                    />
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Password strength: {strengthLabel(strength)}
-                  </p>
-                </div>
-              )}
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Confirm Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
+                <input
                   type="password"
+                  required
                   placeholder="••••••••"
-                  value={form.confirm}
-                  onChange={set("confirm")}
-                  className="pl-10"
+                  className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm font-medium transition-colors bg-slate-50/50 hover:bg-white focus:bg-white"
                 />
               </div>
-              {form.confirm && form.confirm !== form.password && (
-                <p className="text-xs text-destructive">Passwords do not match</p>
-              )}
             </div>
-            <label className="flex items-start gap-2 text-sm">
-              <Checkbox className="mt-0.5" />
-              <span className="text-muted-foreground">
-                I agree to the{" "}
-                <Link href="/terms" className="text-primary hover:underline">
-                  Terms
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="text-primary hover:underline">
-                  Privacy Policy
-                </Link>
-              </span>
-            </label>
-            <Button
-              type="submit"
-              className="w-full gradient-primary text-primary-foreground"
-            >
-              Create Account
-            </Button>
+
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg shadow-blue-500/25 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  "Create account"
+                )}
+              </button>
+            </div>
+
+            <p className="text-center text-xs text-slate-500 font-medium pt-2">
+               By signing up, you agree to our <Link href="/terms" className="text-slate-700 hover:text-slate-900 underline">Terms of Service</Link> and <Link href="/privacy" className="text-slate-700 hover:text-slate-900 underline">Privacy Policy</Link>.
+            </p>
           </form>
 
-          <p className="text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/login" className="text-primary font-medium hover:underline">
-              Sign in
-            </Link>
-          </p>
-        </motion.div>
+        </div>
+        
+        <p className="mt-8 text-center text-[15px] font-medium text-slate-500">
+          Already have an account?{" "}
+          <Link href="/login" className="font-bold text-blue-600 hover:text-blue-700 transition-colors hover:underline underline-offset-4">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );
