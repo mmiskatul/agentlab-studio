@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const GoogleIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -21,11 +22,15 @@ const GithubIcon = () => (
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000);
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/dashboard");
+    }, 1500);
   };
 
   return (
@@ -51,13 +56,13 @@ export default function LoginPage() {
         <div className="bg-white py-10 px-6 sm:px-12 shadow-2xl shadow-slate-200/50 sm:rounded-[2rem] border border-slate-200/60">
           
           <div className="space-y-4 mb-8">
-             <button className="relative w-full flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-4 py-3 rounded-xl font-bold transition-all shadow-sm">
+             <button onClick={() => handleSubmit()} type="button" className="relative w-full flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 px-4 py-3 rounded-xl font-bold transition-all shadow-sm">
                 <div className="absolute left-4">
                   <GoogleIcon />
                 </div>
                 Continue with Google
              </button>
-             <button className="relative w-full flex items-center justify-center bg-[#24292e] text-white hover:bg-[#2f363d] px-4 py-3 rounded-xl font-bold transition-all shadow-sm">
+             <button onClick={() => handleSubmit()} type="button" className="relative w-full flex items-center justify-center bg-[#24292e] text-white hover:bg-[#2f363d] px-4 py-3 rounded-xl font-bold transition-all shadow-sm">
                 <div className="absolute left-4">
                   <GithubIcon />
                 </div>
