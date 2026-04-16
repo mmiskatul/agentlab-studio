@@ -45,7 +45,7 @@ export default function ChatPage() {
   };
 
   return (
-    <DashboardLayout role="user">
+    <DashboardLayout>
       <div className="flex h-full bg-[#fafafa] p-4 lg:p-6 pb-0 overflow-hidden">
         
         {/* Chat History Sidebar */}

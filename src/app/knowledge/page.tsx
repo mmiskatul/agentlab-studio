@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Database, Upload, FileText, Search, Plus, Trash2, Edit3, Type, CheckCircle2, CloudLightning } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import DashboardLayout from "@/components/DashboardLayout";
+import CreatorLayout from "@/components/CreatorLayout";
 
 const docs = [
   { id: 1, name: "Product Manual v2.pdf", size: "2.4 MB", type: "PDF", status: "Indexed", date: "Apr 12, 2026" },
@@ -15,7 +15,7 @@ const docs = [
 
 export default function KnowledgePage() {
   return (
-    <DashboardLayout role="creator">
+    <CreatorLayout>
       <div className="p-6 lg:p-10 space-y-10 max-w-[1200px] mx-auto min-h-full">
         
         {/* Header */}
@@ -123,6 +123,6 @@ export default function KnowledgePage() {
         </div>
 
       </div>
-    </DashboardLayout>
+    </CreatorLayout>
   );
 }

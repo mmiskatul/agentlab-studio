@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import DashboardLayout from "@/components/DashboardLayout";
+import CreatorLayout from "@/components/CreatorLayout";
 import { motion } from "framer-motion";
-import { Bot, Save, Send, Settings2, FileText, Zap, ChevronRight, X, User } from "lucide-react";
+import { Bot, Save, Send, Settings2, FileText, Zap, ChevronRight, X, User, Database, UploadCloud, Link as LinkIcon, File } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,7 +37,7 @@ export default function CreatorStudioPage() {
   };
 
   return (
-    <DashboardLayout role="creator">
+    <CreatorLayout>
       <div className="h-full flex flex-col lg:flex-row overflow-hidden bg-[#fafafa]">
         
         {/* LEFT COLUMN: Agent Configuration */}
@@ -55,14 +55,17 @@ export default function CreatorStudioPage() {
               </div>
            </div>
 
-           <div className="flex gap-4 px-6 md:px-8 py-4 border-b border-slate-100 bg-slate-50">
-              <button onClick={() => setActiveTab("setup")} className={`text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "setup" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
+           <div className="flex gap-2 md:gap-4 px-6 md:px-8 py-4 border-b border-slate-100 bg-slate-50 overflow-x-auto scrollbar-hide">
+              <button onClick={() => setActiveTab("setup")} className={`shrink-0 text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "setup" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
                  <div className="flex items-center"><Settings2 className="w-4 h-4 mr-2"/> Setup</div>
               </button>
-              <button onClick={() => setActiveTab("prompt")} className={`text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "prompt" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
+              <button onClick={() => setActiveTab("prompt")} className={`shrink-0 text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "prompt" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
                  <div className="flex items-center"><FileText className="w-4 h-4 mr-2"/> Instructions</div>
               </button>
-              <button onClick={() => setActiveTab("advanced")} className={`text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "advanced" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
+              <button onClick={() => setActiveTab("knowledge")} className={`shrink-0 text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "knowledge" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
+                 <div className="flex items-center"><Database className="w-4 h-4 mr-2"/> Knowledge</div>
+              </button>
+              <button onClick={() => setActiveTab("advanced")} className={`shrink-0 text-sm font-bold px-4 py-2 rounded-xl transition-all ${activeTab === "advanced" ? "bg-white border border-slate-200 shadow-sm text-slate-900" : "text-slate-500 hover:text-slate-700"}`}>
                  <div className="flex items-center"><Zap className="w-4 h-4 mr-2"/> Advanced</div>
               </button>
            </div>
@@ -118,6 +121,45 @@ export default function CreatorStudioPage() {
                    <div className="space-y-2">
                      <label className="text-sm font-bold text-slate-700">Welcome Message</label>
                      <Input placeholder="What does the agent say first?" className="h-12 rounded-xl border-slate-200 shadow-sm focus-visible:ring-blue-500 bg-slate-50 hover:bg-white transition-colors font-semibold" defaultValue="Hi there! I am your new agent preview. How can I help you today?" />
+                   </div>
+                </motion.div>
+              )}
+
+              {activeTab === "knowledge" && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                   <div className="bg-blue-50 border border-blue-200 p-4 rounded-xl flex gap-3 text-sm text-blue-800">
+                     <div className="mt-0.5"><Database className="w-4 h-4"/></div>
+                     <p className="font-medium">Upload custom files or link external websites. The agent will read and index this data to use as context when answering user queries.</p>
+                   </div>
+                   
+                   <div className="border-2 border-dashed border-slate-200/80 rounded-2xl p-8 hover:bg-slate-50 hover:border-slate-300 transition-colors cursor-pointer text-center group">
+                      <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                         <UploadCloud className="w-7 h-7 text-blue-500" />
+                      </div>
+                      <h3 className="font-heading font-extrabold text-slate-900 text-lg mb-1">Upload Data Source</h3>
+                      <p className="text-sm font-medium text-slate-500 mb-6 max-w-xs mx-auto">Drag and drop PDFs, Text files, or JSON. Max 50MB per file.</p>
+                      <Button className="font-bold rounded-xl shadow-sm">Browse Files</Button>
+                   </div>
+
+                   <div className="mt-8">
+                     <h4 className="font-bold text-slate-900 mb-3 text-sm flex items-center justify-between">
+                       Attached Knowledge
+                       <span className="text-[10px] uppercase font-bold text-slate-400">1 Item</span>
+                     </h4>
+                     <div className="space-y-2">
+                        <div className="flex items-center justify-between p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
+                           <div className="flex items-center gap-3">
+                              <div className="p-2 rounded-lg bg-orange-50 text-orange-600">
+                                 <File className="w-4 h-4" />
+                              </div>
+                              <div>
+                                 <p className="font-bold text-sm text-slate-900">sales_playbook_2026.pdf</p>
+                                 <p className="text-xs font-semibold text-slate-400">2.4 MB • Indexed</p>
+                              </div>
+                           </div>
+                           <Button variant="ghost" size="sm" className="text-red-500 hover:bg-red-50 hover:text-red-600 rounded-lg">Remove</Button>
+                        </div>
+                     </div>
                    </div>
                 </motion.div>
               )}
@@ -212,6 +254,6 @@ export default function CreatorStudioPage() {
         </div>
 
       </div>
-    </DashboardLayout>
+    </CreatorLayout>
   );
 }

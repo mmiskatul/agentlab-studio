@@ -17,7 +17,7 @@ const chatHistory = [
 
 export default function HistoryPage() {
   return (
-    <DashboardLayout role="user">
+    <DashboardLayout>
       <div className="p-6 lg:p-10 space-y-8 max-w-[1200px] mx-auto min-h-full">
         
         {/* Header */}

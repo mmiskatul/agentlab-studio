@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Users, Bot, MessageSquare, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import AdminLayout from "@/components/AdminLayout";
 import Link from "next/link";
 
 const stats = [
@@ -22,8 +21,7 @@ const recentUsers = [
 
 export default function AdminOverview() {
   return (
-    <AdminLayout>
-      <div className="p-6 lg:p-8 space-y-6">
+    <div className="p-6 lg:p-8 space-y-6">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="font-heading text-3xl font-bold">Admin Overview</h1>
           <p className="text-muted-foreground mt-1">Platform overview and general statistics.</p>
@@ -96,7 +94,6 @@ export default function AdminOverview() {
             </table>
           </div>
         </div>
-      </div>
-    </AdminLayout>
+    </div>
   );
 }

@@ -34,7 +34,7 @@ export default function ExploreAgentsPage() {
   }, [searchQuery, activeCategory]);
 
   return (
-    <DashboardLayout role="user">
+    <DashboardLayout>
       <div className="p-6 lg:p-10 space-y-8 max-w-[1400px] mx-auto min-h-full">
         
         {/* Header & Search */}
