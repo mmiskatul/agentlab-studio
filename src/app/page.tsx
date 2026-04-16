@@ -310,12 +310,12 @@ export default function HomePage() {
                 <ul className="space-y-2">
                   {col.links.map((l) => (
                     <li key={l}>
-                      <a
-                        href="#"
+                      <Link
+                        href={["Privacy", "Terms"].includes(l) ? `/${l.toLowerCase()}` : "#"}
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {l}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

@@ -158,13 +158,13 @@ export default function RegisterPage() {
               <Checkbox className="mt-0.5" />
               <span className="text-muted-foreground">
                 I agree to the{" "}
-                <a href="#" className="text-primary hover:underline">
+                <Link href="/terms" className="text-primary hover:underline">
                   Terms
-                </a>{" "}
+                </Link>{" "}
                 and{" "}
-                <a href="#" className="text-primary hover:underline">
+                <Link href="/privacy" className="text-primary hover:underline">
                   Privacy Policy
-                </a>
+                </Link>
               </span>
             </label>
             <Button
