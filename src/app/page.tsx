@@ -24,8 +24,8 @@ export default function HomePage() {
               AgentLab
             </Link>
             <div className="hidden md:flex gap-10 text-sm font-semibold text-slate-500">
-              <Link href="#" className="hover:text-slate-900 transition-colors">Product</Link>
-              <Link href="#" className="hover:text-slate-900 transition-colors">Solutions</Link>
+              <Link href="/product" className="hover:text-slate-900 transition-colors">Product</Link>
+              <Link href="/solutions" className="hover:text-slate-900 transition-colors">Solutions</Link>
               <Link href="#" className="hover:text-slate-900 transition-colors">Developers</Link>
               <Link href="#" className="hover:text-slate-900 transition-colors">Pricing</Link>
             </div>
