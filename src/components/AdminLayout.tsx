@@ -24,6 +24,10 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
+  if (pathname === "/admin-dashboard") {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex h-screen bg-[#fafafa] font-body overflow-hidden text-slate-900">
 

@@ -1,190 +1,282 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, Users, Eye, ShieldOff, ShieldCheck, ChevronRight, X, AlertTriangle, Filter } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, SlidersHorizontal, UserPlus, Users } from "lucide-react";
 
-type UserRecord = {
-  id: string; name: string; email: string; role: "User" | "Creator" | "Admin";
-  status: "Active" | "Disabled" | "Flagged"; agents: number; chats: number;
-  lastLogin: string; created: string;
-};
+import { cn } from "@/lib/utils";
 
-const mockUsers: UserRecord[] = [
-  { id: "u1", name: "Alice Johnson",  email: "alice@example.com",  role: "User",    status: "Active",   agents: 0, chats: 142, lastLogin: "2 hours ago",  created: "Jan 12, 2026" },
-  { id: "u2", name: "Bob Smith",      email: "bob@example.com",    role: "Creator", status: "Active",   agents: 4, chats: 89,  lastLogin: "5 min ago",    created: "Dec 3, 2025"  },
-  { id: "u3", name: "Carol White",    email: "carol@example.com",  role: "User",    status: "Disabled", agents: 0, chats: 12,  lastLogin: "3 days ago",   created: "Mar 5, 2026"  },
-  { id: "u4", name: "David Lee",      email: "david@example.com",  role: "Admin",   status: "Active",   agents: 0, chats: 0,   lastLogin: "1 hour ago",   created: "Nov 10, 2025" },
-  { id: "u5", name: "Elena Marks",    email: "elena@example.com",  role: "Creator", status: "Flagged",  agents: 2, chats: 34,  lastLogin: "1 week ago",   created: "Feb 18, 2026" },
-  { id: "u6", name: "Frank Rivera",   email: "frank@example.com",  role: "User",    status: "Active",   agents: 0, chats: 78,  lastLogin: "1 day ago",    created: "Apr 1, 2026"  },
-  { id: "u7", name: "Grace Kim",      email: "grace@example.com",  role: "Creator", status: "Active",   agents: 6, chats: 210, lastLogin: "30 min ago",   created: "Oct 20, 2025" },
-  { id: "u8", name: "Henry Torres",   email: "henry@example.com",  role: "User",    status: "Active",   agents: 0, chats: 55,  lastLogin: "6 hours ago",  created: "Apr 8, 2026"  },
+type Role = "Creator" | "User" | "Admin";
+type Plan = "Pro" | "Free" | "Enterprise";
+type Status = "Active" | "Inactive" | "Banned";
+type TabFilter = "All" | "Creators" | "Admins";
+
+interface UserRecord {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  plan: Plan;
+  status: Status;
+  joined: string;
+  initials: string;
+  avatarColor: string;
+}
+
+const usersData: UserRecord[] = [
+  {
+    id: "1",
+    name: "Alice Freeman",
+    email: "alice.f@example.com",
+    role: "Creator",
+    plan: "Pro",
+    status: "Active",
+    joined: "Oct 12, 2023",
+    initials: "AF",
+    avatarColor: "bg-blue-100 text-blue-700",
+  },
+  {
+    id: "2",
+    name: "John Doe",
+    email: "j.doe@example.com",
+    role: "User",
+    plan: "Free",
+    status: "Inactive",
+    joined: "Nov 05, 2023",
+    initials: "JD",
+    avatarColor: "bg-slate-200 text-slate-700",
+  },
+  {
+    id: "3",
+    name: "Marcus Vance",
+    email: "m.vance@example.com",
+    role: "Admin",
+    plan: "Enterprise",
+    status: "Active",
+    joined: "Jan 18, 2022",
+    initials: "MV",
+    avatarColor: "bg-cyan-100 text-cyan-700",
+  },
+  {
+    id: "4",
+    name: "Sarah Connor",
+    email: "s.connor@example.com",
+    role: "User",
+    plan: "Pro",
+    status: "Banned",
+    joined: "Dec 01, 2023",
+    initials: "SC",
+    avatarColor: "bg-amber-100 text-amber-700",
+  },
 ];
 
-const roleStyle: Record<string, string> = {
-  User:    "bg-blue-50 text-blue-700 border-blue-100",
-  Creator: "bg-violet-50 text-violet-700 border-violet-100",
-  Admin:   "bg-red-50 text-red-700 border-red-100",
-};
-const statusStyle: Record<string, string> = {
-  Active:   "bg-emerald-50 text-emerald-700 border-emerald-100",
-  Disabled: "bg-slate-100 text-slate-500 border-slate-200",
-  Flagged:  "bg-amber-50 text-amber-700 border-amber-100",
-};
+const totalUsers = 12458;
+const activeToday = 3192;
 
-export default function AdminUsersPage() {
-  const [users, setUsers] = useState<UserRecord[]>(mockUsers);
-  const [search, setSearch] = useState("");
-  const [roleFilter, setRoleFilter] = useState("All");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [confirm, setConfirm] = useState<{ user: UserRecord; action: "disable" | "enable" } | null>(null);
-
-  const filtered = users.filter((u) => {
-    const matchQ  = u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase());
-    const matchR  = roleFilter === "All"   || u.role === roleFilter;
-    const matchS  = statusFilter === "All" || u.status === statusFilter;
-    return matchQ && matchR && matchS;
-  });
-
-  const toggle = () => {
-    if (!confirm) return;
-    setUsers((prev) => prev.map((u) => u.id === confirm.user.id ? { ...u, status: confirm.action === "disable" ? "Disabled" : "Active" } : u));
-    setConfirm(null);
+function StatusBadge({ status }: { status: Status }) {
+  const styles: Record<Status, string> = {
+    Active: "border-emerald-100 bg-emerald-50 text-emerald-700",
+    Inactive: "border-slate-200 bg-slate-100 text-slate-600",
+    Banned: "border-blue-200 bg-blue-50 text-blue-700",
   };
 
   return (
-    <div className="min-h-full bg-[#fafafa] p-6 lg:p-10 space-y-8">
+    <span className={cn("inline-flex rounded-full border px-3 py-1 text-xs font-semibold", styles[status])}>
+      {status}
+    </span>
+  );
+}
 
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <div className="inline-flex items-center text-red-600 font-bold text-[11px] tracking-[0.2em] uppercase mb-3 bg-red-50 px-3.5 py-1.5 rounded-full border border-red-100">
-            Admin · Users
+export default function AdminUsersPage() {
+  const [tab, setTab] = useState<TabFilter>("All");
+  const [users, setUsers] = useState<UserRecord[]>(usersData);
+
+  const filtered = users.filter((user) => {
+    if (tab === "Creators") return user.role === "Creator";
+    if (tab === "Admins") return user.role === "Admin";
+    return true;
+  });
+
+  const handleAction = (id: string, action: "ban" | "unban") => {
+    setUsers((previous) =>
+      previous.map((user) =>
+        user.id === id ? { ...user, status: action === "ban" ? "Banned" : "Active" } : user
+      )
+    );
+  };
+
+  return (
+    <div className="min-h-full bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.06),_transparent_24%),linear-gradient(180deg,#fafafa_0%,#ffffff_100%)]">
+      <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        {/* ── Page Title ── */}
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+          <h1 className="font-heading text-[28px] font-bold text-slate-900 tracking-tight">Manage platform users</h1>
+          <p className="text-slate-500 font-medium mt-1">Review access, creator readiness, and account state</p>
+        </motion.div>
+
+        {/* ── Stats Row ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.0 }}
+            className="bg-white rounded-xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.03)]"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <p className="text-[13px] font-medium text-slate-500">Total Users</p>
+              <div className="p-2.5 rounded-xl bg-slate-50">
+                <Users className="h-5 w-5 text-blue-500" />
+              </div>
+            </div>
+            <p className="font-heading text-[32px] font-bold text-slate-900 leading-none mb-4">{totalUsers.toLocaleString()}</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.06 }}
+            className="bg-white rounded-xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.03)]"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <p className="text-[13px] font-medium text-slate-500">Active Today</p>
+              <div className="p-2.5 rounded-xl bg-slate-50">
+                <Users className="h-5 w-5 text-cyan-500" />
+              </div>
+            </div>
+            <p className="font-heading text-[32px] font-bold text-slate-900 leading-none mb-4">{activeToday.toLocaleString()}</p>
+          </motion.div>
+        </div>
+
+        <motion.section
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.06, duration: 0.3 }}
+          className="overflow-hidden rounded-xl border border-blue-100 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.05)]"
+        >
+          <div className="flex flex-col gap-4 border-b border-slate-100 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-wrap items-center gap-2">
+              {(["All", "Creators", "Admins"] as TabFilter[]).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setTab(item)}
+                  className={cn(
+                    "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                    tab === item ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-700"
+                  )}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                className="inline-flex h-10 items-center gap-2 rounded-full border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-600 transition-colors hover:border-blue-200 hover:text-blue-700"
+              >
+                <SlidersHorizontal className="h-4 w-4" />
+                Filter
+              </button>
+              <button
+                type="button"
+                className="inline-flex h-10 items-center gap-2 rounded-full bg-blue-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+              >
+                <UserPlus className="h-4 w-4" />
+                Add user
+              </button>
+            </div>
           </div>
-          <h1 className="font-heading text-3xl font-extrabold text-slate-900 tracking-tight">Users Management</h1>
-          <p className="text-slate-500 mt-1 font-medium">{users.length} registered users — {users.filter(u => u.status === "Active").length} active</p>
-        </div>
-      </motion.div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name or email…" className="pl-11 h-11 rounded-xl bg-white border-slate-200/60 shadow-sm font-medium" />
-        </div>
-        {["All","User","Creator","Admin"].map((r) => (
-          <button key={r} onClick={() => setRoleFilter(r)}
-            className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${roleFilter === r ? "bg-slate-900 text-white border-transparent shadow-md" : "bg-white border-slate-200/60 text-slate-600 shadow-sm hover:bg-slate-50"}`}
-          >{r === "All" ? "All Roles" : r}</button>
-        ))}
-        {["All","Active","Disabled","Flagged"].map((s) => (
-          <button key={s} onClick={() => setStatusFilter(s)}
-            className={`px-4 py-2 rounded-xl text-sm font-bold border transition-all ${statusFilter === s ? "bg-slate-900 text-white border-transparent shadow-md" : "bg-white border-slate-200/60 text-slate-600 shadow-sm hover:bg-slate-50"}`}
-          >{s === "All" ? "All Status" : s}</button>
-        ))}
-      </div>
-
-      {/* Table */}
-      <div className="bg-white rounded-[1.5rem] border border-slate-200/60 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                <th className="px-6 py-4">User</th>
-                <th className="px-6 py-4">Role</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Agents</th>
-                <th className="px-6 py-4">Chats</th>
-                <th className="px-6 py-4">Last Login</th>
-                <th className="px-6 py-4">Joined</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              <AnimatePresence>
-                {filtered.map((u) => (
-                  <motion.tr key={u.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="hover:bg-slate-50/40 group">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-slate-200 to-slate-100 flex items-center justify-center font-bold text-slate-700 text-sm shadow-sm shrink-0">{u.name[0]}</div>
-                        <div>
-                          <p className="font-bold text-slate-900 text-[14px]">{u.name}</p>
-                          <p className="text-[12px] text-slate-500 font-medium">{u.email}</p>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[820px]">
+              <thead>
+                <tr className="border-b border-slate-100 bg-slate-50/70 text-left text-[11px] font-bold uppercase tracking-[0.18em] text-slate-500">
+                  <th className="px-6 py-4">User</th>
+                  <th className="px-4 py-4">Role</th>
+                  <th className="px-4 py-4">Plan</th>
+                  <th className="px-4 py-4">Status</th>
+                  <th className="px-4 py-4">Joined</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filtered.map((user) => (
+                  <tr key={user.id} className="bg-white transition-colors hover:bg-blue-50/30">
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={cn(
+                            "flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-bold",
+                            user.avatarColor
+                          )}
+                        >
+                          {user.initials}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="truncate font-semibold text-slate-950">{user.name}</p>
+                          <p className="truncate text-sm text-slate-500">{user.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4"><span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md border ${roleStyle[u.role]}`}>{u.role}</span></td>
-                    <td className="px-6 py-4"><span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md border ${statusStyle[u.status]}`}>{u.status}</span></td>
-                    <td className="px-6 py-4"><span className="font-bold text-slate-800 text-sm">{u.agents}</span></td>
-                    <td className="px-6 py-4"><span className="font-bold text-slate-800 text-sm">{u.chats}</span></td>
-                    <td className="px-6 py-4"><span className="text-sm font-medium text-slate-500">{u.lastLogin}</span></td>
-                    <td className="px-6 py-4"><span className="text-sm font-medium text-slate-500">{u.created}</span></td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link href={`/admin/users/${u.id}`}>
-                          <Button variant="ghost" size="sm" className="h-8 rounded-lg font-bold text-slate-500 hover:text-blue-600 hover:bg-blue-50 hidden sm:flex">
-                            <Eye className="w-3.5 h-3.5 mr-1" /> View
-                          </Button>
+                    <td className="px-4 py-5 text-sm font-medium text-slate-700">{user.role}</td>
+                    <td className="px-4 py-5 text-sm font-medium text-slate-700">{user.plan}</td>
+                    <td className="px-4 py-5">
+                      <StatusBadge status={user.status} />
+                    </td>
+                    <td className="px-4 py-5 text-sm text-slate-500">{user.joined}</td>
+                    <td className="px-6 py-5">
+                      <div className="flex items-center justify-end gap-5 text-sm font-semibold">
+                        <Link href={`/admin/users/${user.id}`} className="text-slate-700 transition-colors hover:text-blue-700">
+                          View
                         </Link>
-                        {u.status === "Active" || u.status === "Flagged" ? (
-                          <Button variant="ghost" size="sm" onClick={() => setConfirm({ user: u, action: "disable" })} className="h-8 rounded-lg font-bold text-red-500 hover:bg-red-50 hidden sm:flex">
-                            <ShieldOff className="w-3.5 h-3.5 mr-1" /> Disable
-                          </Button>
+                        {user.status === "Banned" ? (
+                          <button
+                            type="button"
+                            onClick={() => handleAction(user.id, "unban")}
+                            className="text-emerald-700 transition-colors hover:text-emerald-800"
+                          >
+                            Unban
+                          </button>
                         ) : (
-                          <Button variant="ghost" size="sm" onClick={() => setConfirm({ user: u, action: "enable" })} className="h-8 rounded-lg font-bold text-emerald-600 hover:bg-emerald-50 hidden sm:flex">
-                            <ShieldCheck className="w-3.5 h-3.5 mr-1" /> Enable
-                          </Button>
+                          <button
+                            type="button"
+                            onClick={() => handleAction(user.id, "ban")}
+                            className="text-blue-600 transition-colors hover:text-blue-700"
+                          >
+                            Ban
+                          </button>
                         )}
                       </div>
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))}
-              </AnimatePresence>
-            </tbody>
-          </table>
-        </div>
-        {filtered.length === 0 && (
-          <div className="py-20 flex flex-col items-center text-center">
-            <Users className="w-10 h-10 text-slate-300 mb-3" />
-            <p className="font-bold text-slate-700">No users found</p>
-            <Button variant="ghost" className="mt-3 font-bold text-red-600 hover:bg-red-50 rounded-xl" onClick={() => { setSearch(""); setRoleFilter("All"); setStatusFilter("All"); }}>Clear filters</Button>
+              </tbody>
+            </table>
           </div>
-        )}
-        <div className="p-4 border-t border-slate-100 bg-slate-50/40 flex items-center justify-between text-sm font-medium text-slate-500">
-          <span>Showing {filtered.length} of {users.length} users</span>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="rounded-xl font-bold border-slate-200" disabled>Previous</Button>
-            <Button variant="outline" size="sm" className="rounded-xl font-bold border-slate-200">Next</Button>
-          </div>
-        </div>
-      </div>
 
-      {/* Confirm Modal */}
-      <AnimatePresence>
-        {confirm && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-white rounded-[2rem] p-8 shadow-2xl max-w-md w-full border border-slate-200/60">
-              <div className="flex items-start justify-between mb-6">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${confirm.action === "disable" ? "bg-red-50" : "bg-emerald-50"}`}>
-                  <AlertTriangle className={`w-6 h-6 ${confirm.action === "disable" ? "text-red-500" : "text-emerald-500"}`} />
-                </div>
-                <button onClick={() => setConfirm(null)} className="p-2 rounded-xl hover:bg-slate-100"><X className="w-5 h-5 text-slate-400" /></button>
-              </div>
-              <h2 className="font-heading text-xl font-extrabold text-slate-900 mb-2">{confirm.action === "disable" ? "Disable" : "Enable"} User?</h2>
-              <p className="text-slate-500 font-medium text-sm mb-8">This will {confirm.action} <span className="font-bold text-slate-800">{confirm.user.name}</span> ({confirm.user.email}).</p>
-              <div className="flex gap-3">
-                <Button variant="outline" onClick={() => setConfirm(null)} className="flex-1 rounded-xl font-bold h-11 border-slate-200">Cancel</Button>
-                <Button onClick={toggle} className={`flex-1 rounded-xl font-bold h-11 text-white ${confirm.action === "disable" ? "bg-red-600 hover:bg-red-700" : "bg-emerald-600 hover:bg-emerald-700"}`}>
-                  {confirm.action === "disable" ? "Disable User" : "Enable User"}
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/60 px-6 py-4">
+            <span className="text-sm text-slate-500">
+              Showing 1 to {filtered.length} of {totalUsers.toLocaleString()} results
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </motion.section>
+      </div>
     </div>
   );
 }
